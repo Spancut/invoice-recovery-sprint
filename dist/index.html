@@ -277,7 +277,10 @@
     details p { margin: 0.7rem 0 0; max-width: 850px; color: var(--muted); }
     footer { padding: 2rem 0 3rem; background: var(--ink); color: var(--white); }
     footer .wrap { display: flex; justify-content: space-between; gap: 2rem; align-items: start; }
+    .footer-copy { display: grid; gap: 0.7rem; }
     footer p { max-width: 760px; margin-bottom: 0; color: rgba(255,255,255,0.7); font-size: 0.88rem; }
+    footer .provider { color: var(--white); }
+    footer a { color: inherit; text-underline-offset: 3px; }
     .status { display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 0.78rem; }
     .status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--acid); }
 
@@ -527,7 +530,10 @@
 
   <footer>
     <div class="wrap">
-      <p><strong>Important:</strong> This is a validation-stage accounts-receivable administration service, not legal advice or a debt-collection guarantee. It is limited to routine, undisputed B2B invoices. The client sends all customer communications from its own account. Formal disputes and legal escalation remain with the client and their appropriately qualified advisers. <a href="#privacy">Privacy</a> · <a href="#terms">Pilot terms</a> · <a href="#contact">Contact</a></p>
+      <div class="footer-copy">
+        <p class="provider"><strong>Provider:</strong> Daniel Cutrona · ABN 46 899 887 638 · <a href="mailto:daniel@aritto.app">daniel@aritto.app</a></p>
+        <p><strong>Important:</strong> This is a validation-stage accounts-receivable administration service, not legal advice or a debt-collection guarantee. It is limited to routine, undisputed B2B invoices. The client sends all customer communications from its own account. Formal disputes and legal escalation remain with the client and their appropriately qualified advisers. <a href="#privacy">Privacy</a> · <a href="#terms">Pilot terms</a> · <a href="#contact">Contact</a></p>
+      </div>
       <span class="status"><span class="status-dot" aria-hidden="true"></span> Accepting 3 pilot firms</span>
     </div>
   </footer>
