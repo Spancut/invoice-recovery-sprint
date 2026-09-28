@@ -332,38 +332,109 @@
         linear-gradient(90deg, rgba(76, 174, 135, 0.055) 1px, transparent 1px),
         var(--paper);
       background-size: auto, 48px 48px, 48px 48px, auto;
+      overflow-x: clip;
     }
 
-    .topbar { background: rgba(2, 8, 6, 0.9); border-bottom-color: var(--line); }
+    ::selection { background: var(--acid); color: #00140d; }
+    .topbar { background: rgba(2, 8, 6, 0.88); border-bottom-color: var(--line); }
+    .topbar::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 1px;
+      background: var(--acid);
+      transform: scaleX(var(--scroll-progress, 0));
+      transform-origin: left;
+      box-shadow: 0 0 18px rgba(25, 221, 152, 0.45);
+    }
     .mark { letter-spacing: 0.12em; font-size: 0.88rem; }
-    .mark-icon { background: transparent; color: var(--acid); border: 1px solid var(--line); }
-    .top-link { color: var(--muted); }
-    .hero, section.content { border-bottom-color: var(--line); }
+    .mark-icon { background: transparent; color: var(--acid); border: 1px solid var(--line); animation: mark-breathe 4.8s ease-in-out infinite; }
+    .top-link { position: relative; color: var(--muted); text-decoration: none; }
+    .top-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -0.35rem; height: 1px; background: var(--acid); transform: scaleX(0); transform-origin: right; transition: transform 180ms ease; }
+    .top-link:hover::after, .top-link:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+    .hero, section.content { position: relative; border-bottom-color: var(--line); }
+    .hero { isolation: isolate; overflow: hidden; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 34rem;
+      aspect-ratio: 1;
+      right: -12rem;
+      top: -16rem;
+      border: 1px solid rgba(25, 221, 152, 0.12);
+      border-radius: 50%;
+      box-shadow: 0 0 0 5rem rgba(25, 221, 152, 0.025), 0 0 0 10rem rgba(25, 221, 152, 0.018);
+      animation: ambient-drift 12s ease-in-out infinite alternate;
+    }
     .eyebrow { color: var(--acid); background: rgba(25, 221, 152, 0.06); border-color: var(--line); }
     h1 .accent { color: var(--acid); }
+    .hero-grid > div { animation: hero-rise 620ms cubic-bezier(.22,.8,.3,1) both; }
     .btn { background: var(--acid); color: #00140d; border-color: var(--acid); box-shadow: none; }
     .btn:hover { box-shadow: 0 0 0 5px rgba(25, 221, 152, 0.13); }
+    .btn span[aria-hidden] { transition: transform 180ms ease; }
+    .btn:hover span[aria-hidden] { transform: translateX(0.25rem); }
     .btn.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
     .btn:focus-visible, input:focus-visible { outline-color: var(--acid); }
-    .ledger { background: var(--surface); border-color: var(--line); box-shadow: var(--shadow); }
+    .ledger { position: relative; overflow: hidden; background: var(--surface); border-color: var(--line); box-shadow: var(--shadow); animation: hero-rise 620ms 120ms cubic-bezier(.22,.8,.3,1) both; }
+    .ledger::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 0 42%, rgba(25, 221, 152, 0.07) 50%, transparent 58%); transform: translateY(-110%); animation: ledger-scan 7s 1.2s ease-in-out infinite; }
     .ledger-head { background: #030a08; color: var(--ink); }
     .ledger-head, .ledger-row, .ledger-total { border-bottom-color: var(--line); }
+    .ledger-row { transition: background 160ms ease, transform 160ms ease; }
+    .ledger-row:hover { background: rgba(25, 221, 152, 0.045); transform: translateX(2px); }
+    .ledger-row span:last-child { padding: 0.12rem 0.38rem; border: 1px solid var(--line); color: var(--acid); font-size: 0.7rem; letter-spacing: 0.06em; }
+    .ledger-row.overdue span:last-child { color: var(--red); border-color: rgba(255, 118, 106, 0.35); }
     .ledger-total { color: #00140d; }
     .strip { background: #06100c; border-bottom-color: var(--line); }
-    .proof { border-color: var(--line); }
+    .proof { border-color: var(--line); transition: background 180ms ease; }
+    .proof:hover { background: rgba(25, 221, 152, 0.035); }
     .section-head p, .step p, .trust-card p, details p, .sources { color: var(--muted); }
-    .kicker { color: var(--acid); }
+    .kicker { display: flex; align-items: center; gap: 0.65rem; color: var(--acid); }
+    .kicker::before { content: ""; width: 1.6rem; height: 1px; background: currentColor; }
     .steps, .pilot { background: var(--line); border-color: var(--line); }
     .step, .scope-card, .qualifier, .trust-card { background: var(--surface); }
+    .step, .scope-card, .trust-card { transition: transform 180ms ease, border-color 180ms ease, background 180ms ease; }
+    .step:hover, .scope-card:hover, .trust-card:hover { transform: translateY(-3px); border-color: rgba(25, 221, 152, 0.35); background: #091711; }
+    .step-no { color: var(--acid); }
     .scope-card, .trust-card { border-color: var(--line); }
     .scope-card.no { background: #1a0d0b; }
     .offer { color: #00140d; }
-    input, textarea { background: #020806; color: var(--ink); border-color: var(--line); }
-    .result { background: #0a1511; }
+    input, textarea { background: #020806; color: var(--ink); border-color: var(--line); transition: border-color 160ms ease, background 160ms ease; }
+    input:hover, textarea:hover { border-color: rgba(25, 221, 152, 0.38); }
+    input:focus, textarea:focus { background: #06100c; border-color: var(--acid); }
+    .result { background: #0a1511; transition: background 180ms ease, border-color 180ms ease; }
     details { border-color: var(--line); }
+    summary { position: relative; padding-right: 2rem; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; position: absolute; right: 0.2rem; color: var(--acid); font: 500 1.2rem/1 ui-monospace, SFMono-Regular, Consolas, monospace; transition: transform 180ms ease; }
+    details[open] summary::after { transform: rotate(45deg); }
     footer { background: #020806; border-top: 1px solid var(--line); }
     footer .provider { color: var(--ink); }
     .product-note { margin-top: 1rem; color: var(--muted); font-size: 0.84rem; }
+    .status-dot { box-shadow: 0 0 0 0 rgba(25, 221, 152, 0.38); animation: status-pulse 2.8s ease-out infinite; }
+
+    .motion-ready [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 560ms cubic-bezier(.22,.8,.3,1), transform 560ms cubic-bezier(.22,.8,.3,1); transition-delay: var(--delay, 0ms); }
+    .motion-ready [data-reveal].is-visible { opacity: 1; transform: none; }
+
+    @keyframes hero-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes ambient-drift { from { transform: translate3d(0, 0, 0) scale(0.96); } to { transform: translate3d(-2rem, 2.5rem, 0) scale(1.04); } }
+    @keyframes ledger-scan { 0%, 58% { transform: translateY(-110%); } 72%, 100% { transform: translateY(110%); } }
+    @keyframes mark-breathe { 0%, 100% { box-shadow: 0 0 0 0 rgba(25, 221, 152, 0); } 50% { box-shadow: 0 0 0 5px rgba(25, 221, 152, 0.07); } }
+    @keyframes status-pulse { 0% { box-shadow: 0 0 0 0 rgba(25, 221, 152, 0.38); } 65%, 100% { box-shadow: 0 0 0 8px rgba(25, 221, 152, 0); } }
+
+    @media (max-width: 600px) {
+      h1 { font-size: clamp(2.75rem, 12.5vw, 4.25rem); letter-spacing: -0.055em; }
+      .eyebrow { max-width: 100%; }
+      .ledger-row span:first-child { min-width: 0; overflow-wrap: anywhere; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mark-icon, .hero-grid > div, .ledger, .ledger::after, .hero::before, .status-dot { animation: none !important; }
+      .motion-ready [data-reveal] { opacity: 1; transform: none; transition: none; }
+      .topbar::after { transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -411,13 +482,13 @@
 
     <section class="content" id="process">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <p class="kicker">The sprint</p>
           <h2>Seven days, three controlled steps.</h2>
           <p>Aritto Ledger starts as a deliberately controlled service. Its job is to prove whether a disciplined exception workflow can surface blockers, document commitments and save owner time before deeper automation is justified.</p>
         </div>
 
-        <div class="steps">
+        <div class="steps" data-reveal>
           <article class="step">
             <span class="step-no">01 / TRIAGE</span>
             <h3>Separate routine overdue work from real disputes.</h3>
@@ -439,13 +510,13 @@
 
     <section class="content" aria-labelledby="sample-heading">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <p class="kicker">Sample output</p>
           <h2 id="sample-heading">Judge the work before sharing live data.</h2>
           <p>The closeout is an operational queue, not a vague advisory memo. These examples are illustrative and contain no customer information.</p>
         </div>
 
-        <div class="scope-grid">
+        <div class="scope-grid" data-reveal>
           <article class="scope-card">
             <h3>Tracker excerpt</h3>
             <ul>
@@ -467,13 +538,13 @@
 
     <section class="content">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <p class="kicker">Scope boundary</p>
           <h2>Administrative control, not aggressive collection.</h2>
           <p>The pilot is for undisputed business invoices where preserving the customer relationship matters.</p>
         </div>
 
-        <div class="scope-grid">
+        <div class="scope-grid" data-reveal>
           <article class="scope-card">
             <h3>Included</h3>
             <ul>
@@ -499,7 +570,7 @@
     </section>
 
     <section class="content" id="qualify">
-      <div class="wrap pilot">
+      <div class="wrap pilot" data-reveal>
         <div class="offer">
           <p class="kicker">Founding pilot</p>
           <p class="price">A$249</p>
@@ -541,13 +612,13 @@
 
     <section class="content" id="trust">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <p class="kicker">Control and trust</p>
           <h2>Your authority stays with you.</h2>
           <p>The validation page collects nothing. If a pilot proceeds, the written scope defines exactly what is shared, who approves each communication and when work stops.</p>
         </div>
 
-        <div class="trust-grid">
+        <div class="trust-grid" data-reveal>
           <article class="trust-card">
             <h3>Minimum data</h3>
             <p>Initial fit needs counts and approximate values only. A scoped pilot uses the minimum invoice metadata required for the agreed queue.</p>
@@ -595,6 +666,43 @@
 
   <script>
     (() => {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const root = document.documentElement;
+      let ticking = false;
+
+      function updateScrollProgress() {
+        const available = root.scrollHeight - window.innerHeight;
+        const progress = available > 0 ? Math.min(1, Math.max(0, window.scrollY / available)) : 0;
+        root.style.setProperty('--scroll-progress', progress.toFixed(4));
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateScrollProgress);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateScrollProgress();
+
+      if (!reducedMotion) {
+        document.body.classList.add('motion-ready');
+        const revealItems = [...document.querySelectorAll('[data-reveal]')];
+        revealItems.forEach((item, index) => item.style.setProperty('--delay', `${(index % 3) * 55}ms`));
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            });
+          }, { threshold: 0.14, rootMargin: '0px 0px -7% 0px' });
+          revealItems.forEach((item) => observer.observe(item));
+        } else {
+          revealItems.forEach((item) => item.classList.add('is-visible'));
+        }
+      }
+
       const fields = {
         count: document.querySelector('#invoice-count'),
         value: document.querySelector('#overdue-value'),
